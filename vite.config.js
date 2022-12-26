@@ -4,6 +4,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  base: '/my-blog/',
   // 后端配置
   // server: {
   //   hmr: true,
