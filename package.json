@@ -9,6 +9,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "element-plus": "^2.2.27",
     "path": "^0.12.7",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
