@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
-    {
-        path: '/',
-        redirect: '/index',
-    },
+    // {
+    //     path: '/',
+    //     redirect: '/index',
+    // },
     {
         name: '登录',
         path: '/login',
@@ -16,7 +16,7 @@ const routes = [
     },
     {
         name: '主页',
-        path: '/index',
+        path: '/',
         component:()=> import('../views/Home.vue'),
     }
 ];
