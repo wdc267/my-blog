@@ -51,7 +51,7 @@ const login = () => {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .login-body {
   width:100%;
   height: calc(100vh);
@@ -63,10 +63,11 @@ const login = () => {
 }
 .login-panel{
   width: 350px;
-  height: 270px;
+  height: 300px;
   margin: 200px auto;
-  background-color: rgba(22, 23, 29, 0.6);
-  border-radius: 5px;
+  background-color: rgba(22, 23, 29, 0.7);
+  border-radius: 10px;
+  box-shadow: 0 0 25px #cac6c6;
   padding: 20px;
 }
 .login-title {

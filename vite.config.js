@@ -1,9 +1,17 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
-// https://vitejs.dev/config/
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(),
+    AutoImport({
+    resolvers: [ElementPlusResolver()],
+  }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),],
   base: '/my-blog/',
   // 后端配置
   // server: {
@@ -20,7 +28,6 @@ export default defineConfig({
   //     }
   //   }
   // },
-  
   resolve: {
     alias: {
       // 配置路径别名

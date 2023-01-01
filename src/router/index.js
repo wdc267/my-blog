@@ -1,23 +1,31 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import Main from '../views/Main.vue'
+import Home from '../views/Home.vue'
+// import { makeInstaller } from 'element-plus';
 const routes = [
-    // {
-    //     path: '/',
-    //     redirect: '/index',
-    // },
     {
-        name: '登录',
+        name: 'login',
         path: '/login',
-        component: ()=> import('../views/Login.vue'),
+        component: Login
     },
     {
-        name: '注册',
+        name: 'register',
         path: '/register',
-        component: ()=> import('../views/Register.vue'),
+        component: Register
     },
     {
-        name: '主页',
+        name: 'home',
         path: '/',
-        component:()=> import('../views/Home.vue'),
+        component: Main,
+        children: [
+            {
+                path: '/',
+                name: 'home',
+                component: Home
+            }
+        ]
     }
 ];
 
