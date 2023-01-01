@@ -1,1 +1,0 @@
-import{_ as t,b as s,o as r,c as n,e as a,w as c,F as _,d as e}from"./index-eec5cf94.js";const l={},d=e("div",null,"hello world",-1),i=e("a",{class:"to-register"},"注册账号",-1);function m(u,f){const o=s("router-link");return r(),n(_,null,[d,a(o,{to:"/register"},{default:c(()=>[i]),_:1})],64)}const h=t(l,[["render",m]]);export{h as default};
