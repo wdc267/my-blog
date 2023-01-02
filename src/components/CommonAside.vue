@@ -8,10 +8,13 @@
         :collapse="!$store.state.isCollapse"
         :collapse-transition="false"
         >
+        <h3 v-show="$store.state.isCollapse">个人博客</h3>
+        <h3 v-show="!$store.state.isCollapse">博客</h3>
             <el-menu-item 
             :index="item.path" 
             v-for="item in noChildren()"
             :key="item.path"
+            @click="clickMenu(item)"
             >   
                 <!-- 动态引入icon -->
                 <component class="icons" :is="item.icon"></component> 
@@ -23,8 +26,11 @@
                     <span>{{ item.label }}</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item :index="subItem.path" v-for="(subItem,subIndex) in item.
+                    <el-menu-item 
+                    :index="subItem.path" 
+                    v-for="(subItem,subIndex) in item.
                     children" :key="subIndex"
+                    @click="clickMenu(subItem)"
                     >
                     <component class="icons" :is="subItem.icon"></component>
                     <span>{{ subItem.label }}</span>
@@ -36,6 +42,7 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 export default {
     setup() {
         const list = [
@@ -47,18 +54,18 @@ export default {
                 url: 'Home/Home'
             },
             {
-                path: '/mall',
-                name: 'mall',
-                label: '商品管理',
-                icon: 'video-play',
-                url: 'MallManage/MallManage'
-            },
-            {
                 path: '/user',
                 name: 'user',
-                label: '用户管理',
+                label: '用户主页',
                 icon: 'user',
                 url: 'UserManage/UserManage'
+            },
+            {
+                path: '/blogs',
+                name: 'blogs',
+                label: '博客管理',
+                icon: 'Collection',
+                url: 'MallManage/MallManage'
             },
             {
                 label: '其他',
@@ -82,15 +89,22 @@ export default {
                 ]
             }
         ];
+        const router = useRouter();
         const noChildren = () => {
             return list.filter((item) => !item.children);
         };
         const hasChildren = () => {
             return list.filter((item) => item.children);
         };
+        const clickMenu = (item) => {
+            router.push({
+                name: item.name,
+            });
+        };
         return {
             noChildren,
-            hasChildren
+            hasChildren,
+            clickMenu
         }
     }
 }
@@ -103,5 +117,10 @@ export default {
 }
 .el-menu{
     border-right:none;
+    h3 {
+        line-height:48px;
+        color: #fff;
+        text-align: center;
+    }
 }
 </style>
