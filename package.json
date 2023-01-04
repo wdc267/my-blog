@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
+    "axios": "^1.2.2",
     "element-plus": "^2.2.27",
     "less": "^4.1.2",
     "less-loader": "^6.0.0",
+    "mockjs": "^1.1.0",
     "path": "^0.12.7",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",

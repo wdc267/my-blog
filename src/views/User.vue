@@ -32,41 +32,32 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue';
+import axios from 'axios';
 export default defineComponent({
     setup() {
-        const tableData = [
-            {
-                name: 'blog1',
-                createDate: '2023/1/1',
-                updateDate: '2023/1/2',
-                writer: 'wdc',
-            },
-            {
-                name: 'blog2',
-                createDate: '2023/1/1',
-                updateDate: '2023/1/2',
-                writer: 'wdc',
-            },
-            {
-                name: 'blog3',
-                createDate: '2023/1/1',
-                updateDate: '2023/1/2',
-                writer: 'wdc',
-            },
-            {
-                name: 'blog4',
-                createDate: '2023/1/1',
-                updateDate: '2023/1/2',
-                writer: 'wdc',
-            },
-        ];
+        const { proxy } = getCurrentInstance();
+        let tableData = ref([]);
         const tableLabel = {
             name: '博客名称',
             createDate: '创建日期',
             updateDate: '更新日期',
             writer: '作者名',
         }
+        const getTableList = async () => {
+            // await axios.get("https://www.fastmock.site/mock/671926fb122a9f47cb3da06315f60136/api/user/getTableData").then((res) => {
+            //     console.log(res);
+            //     if (res.data.code == 200) {
+            //         tableData.value = res.data.data.tableData;   
+            //     }
+            // })
+            let res = await proxy.$api.getTableData();
+            console.log(res);
+            tableData.value = res;
+        };
+        onMounted(() => {
+            getTableList();
+        })
         return {
             tableLabel,
             tableData
