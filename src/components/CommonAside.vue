@@ -43,8 +43,10 @@
 
 <script>
 import { useRouter } from "vue-router";
+import { useStore } from 'vuex';
 export default {
     setup() {
+        const store = useStore();
         const list = [
             {
                 path: '/',
@@ -56,33 +58,33 @@ export default {
             {
                 path: '/user',
                 name: 'user',
-                label: '用户主页',
+                label: '个人中心',
                 icon: 'user',
                 url: 'UserManage/UserManage'
             },
             {
                 path: '/blogs',
                 name: 'blogs',
-                label: '博客管理',
+                label: '我的博客',
                 icon: 'Collection',
                 url: 'MallManage/MallManage'
             },
             {
-                label: '其他',
+                label: '其它',
                 icon: 'location',
                 path:'/other',
                 children: [
                     {
                         path: '/page1',
                         name: 'page1',
-                        label: '页面1',
+                        label: '用户管理',
                         icon: 'setting',
                         url: 'Other/PageOne'
                     },
                     {
                         path: '/page2',
                         name: 'page2',
-                        label: '页面2',
+                        label: '博客管理',
                         icon: 'setting',
                         url: 'Other/PageTwo'
                     }
@@ -100,6 +102,8 @@ export default {
             router.push({
                 name: item.name,
             });
+            // vuex来管理
+            store.commit('selectMenu', item);
         };
         return {
             noChildren,

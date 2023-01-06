@@ -12,5 +12,20 @@ export default {
                 data: params,
                 mock: true
         })
+    },
+    getCountData() {
+        return request({
+            url: '/user/getCountData',
+            method: 'get',
+            mock: true
+        })
+    },
+    getUserData(params) {
+        return request({
+            url: '/userAdmin/getUser',
+            method: 'get',
+            mock: false,
+            data: params
+        })
     }
 }

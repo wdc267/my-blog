@@ -6,7 +6,11 @@
                 <Menu/>
             </el-icon>
         </el-button>
-        <h3>首页</h3>
+        <el-breadcrumb separator="/" class="bread">
+            <!-- 首页是一定存在的写死 -->
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="current.path" v-if="current">{{current.label}}</el-breadcrumb-item>
+        </el-breadcrumb>
     </div>
     <div class="r-content">
         <div class="to-login">
@@ -29,10 +33,11 @@
 </template>
 
 <script>
-import {useStore} from 'vuex'
-export default {
+import { computed, defineComponent } from "vue";
+import { useStore } from 'vuex';
+export default defineComponent({
     setup() {
-        let store = useStore()
+        let store = useStore();
         // 动态引入图片
         const getImgSrc = (user) => {
             return new URL(`../assets/images/${user}.jpg`, import.meta.url).href
@@ -41,12 +46,17 @@ export default {
             // 调用vuex中的mutations
             store.commit('updateIsCollapse');
         }
+        // 计算属性
+        const current = computed(() => {
+            return store.state.currentMenu;
+        })
         return {
             getImgSrc,
-            handleCollapse
+            handleCollapse,
+            current
         }
     }
-}
+})
 </script>
 
 <style lang="less" scoped>
@@ -78,6 +88,10 @@ header {
     }
     h3{
         color:#fff;
+    }
+    .bread /deep/ span {
+        color: #fff;
+        cursor: pointer !important;
     }
 }
 </style>
