@@ -24,7 +24,7 @@
             <template #dropdown>
                 <el-dropdown-menu>
                     <el-dropdown-item>个人中心</el-dropdown-item>
-                    <el-dropdown-item>退出</el-dropdown-item>
+                    <el-dropdown-item @click="handleLoginOut">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
@@ -34,6 +34,7 @@
 
 <script>
 import { computed, defineComponent } from "vue";
+import { useRouter } from "vue-router";
 import { useStore } from 'vuex';
 export default defineComponent({
     setup() {
@@ -44,16 +45,25 @@ export default defineComponent({
         };
         let handleCollapse = () => {
             // 调用vuex中的mutations
-            store.commit('updateIsCollapse');
+            store.commit("updateIsCollapse");
         }
         // 计算属性
         const current = computed(() => {
             return store.state.currentMenu;
         })
+        const router = useRouter();
+        const handleLoginOut = () => {
+            store.commit("cleanMenu");
+            store.commit('clearToken');
+            router.push({
+                name: 'login',
+            })
+        }
         return {
             getImgSrc,
             handleCollapse,
-            current
+            current,
+            handleLoginOut,
         }
     }
 })
@@ -93,5 +103,10 @@ header {
         color: #fff;
         cursor: pointer !important;
     }
+    // :deep(.bread.span) {
+    //     color: #fff;
+    //     cursor: pointer !important;
+    // }
+    
 }
 </style>

@@ -22,34 +22,36 @@ const routes = [
     {
         path: '/',
         component: Main,
+        name:'home1',
         redirect:'/home',
-        children: [
-            {
-                name: 'home',
-                path: '/home',
-                component: Home
-            },
-            {
-                name: 'user',
-                path: '/user',
-                component: User
-            },
-            {
-                name: 'blogs',
-                path: '/blogs',
-                component: Blogs
-            },
-            {
-                name: 'page1',
-                path: '/page1',
-                component: Page1
-            },
-            {
-                name: 'page2',
-                path: '/page2',
-                component: Page2
-            },
-        ]
+        // children: [
+        //     {
+        //         name: 'home',
+        //         path: '/home',
+        //         component: Home
+        //     },
+        //     {
+        //         name: 'user',
+        //         path: '/user',
+        //         component: User
+        //     },
+        //     {
+        //         name: 'blogs',
+        //         path: '/blogs',
+        //         component: Blogs
+        //     },
+        //     {
+        //         name: 'page1',
+        //         path: '/page1',
+        //         component: Page1
+        //     },
+        //     {
+        //         name: 'page2',
+        //         path: '/page2',
+        //         component: Page2
+        //     },
+        // ]
+        children: []
     },
 ];
 

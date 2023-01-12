@@ -31,23 +31,48 @@
   </div>
 </template>
 
-<script setup>
-import { reactive, ref } from "@vue/reactivity";
-const loginDataRef = ref(null);
-const loginData = reactive({
-  username: '',
-  password: '',
-});
-const rules = reactive ({
-  username: [{ required: true, message: 'Please input your user name' }],
-  password: [{required: true, message: 'Please input password'}]
-})
-const login = () => {
-  loginDataRef.value.validate((valid) => {
-    if (!valid) {
-      return;
+<script>
+import { reactive, ref, getCurrentInstance } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+export default {
+  setup() {
+    const loginDataRef = ref(null);
+    const loginData = reactive({
+      username: 'admin',
+      password: 'admin',
+    });
+    const rules = reactive({
+      username: [{ required: true, message: 'Please input your user name' }],
+      password: [{ required: true, message: 'Please input password' }]
+    })
+    // const login = () => {
+    //   loginDataRef.value.validate((valid) => {
+    //     if (!valid) {
+    //       return;
+    //     }
+    //   });
+    // }
+    const { proxy } = getCurrentInstance();
+    const store = useStore();
+    const router = useRouter();
+    const login = async() => {
+      const res = await proxy.$api.getMenu(loginData);
+      store.commit('setMenu', res.menu);
+      store.commit('addMenu', router);
+      store.commit('setToken', res.token);
+      router.push({
+        name: "home"
+      });
     }
-  });
+    return {
+      loginDataRef,
+      loginData,
+      rules,
+      login
+    }   
+  }
 }
 </script>
 
