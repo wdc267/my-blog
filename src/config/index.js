@@ -10,15 +10,15 @@ const env = import.meta.env.MODE || 'prod'
 
 const EnvConfig = {
     development: {
-        baseApi: '/api',
+        baseApi: 'https://db-api.amarea.cn',
         mockApi: 'https://www.fastmock.site/mock/671926fb122a9f47cb3da06315f60136/api',
     },
     test: {
-        baseApi: '//test.com/api',
+        baseApi: 'https://db-api.amarea.cn',
         mockApi: 'https://www.fastmock.site/mock/671926fb122a9f47cb3da06315f60136/api',
     },
     pro: {
-        baseApi: '//future.com/api',
+        baseApi: 'https://db-api.amarea.cn',
         mockApi: 'https://www.fastmock.site/mock/671926fb122a9f47cb3da06315f60136/api',
     },
 }
@@ -26,7 +26,7 @@ const EnvConfig = {
 export default {
     env,
     // mock的总开关
-    mock: true,
+    mock: false,
     ...EnvConfig[env]
 }
 

@@ -8,7 +8,7 @@
         :collapse="!$store.state.isCollapse"
         :collapse-transition="false"
         >
-        <h3 v-show="$store.state.isCollapse">个人博客</h3>
+        <h3 v-show="$store.state.isCollapse">{{ username? username:'我'}}的博客</h3>
         <h3 v-show="!$store.state.isCollapse">博客</h3>
             <el-menu-item 
             :index="item.path" 
@@ -41,78 +41,74 @@
     </el-aside>
 </template>
 
-<script>
+<script setup>
 import { useRouter } from "vue-router";
 import { useStore } from 'vuex';
-export default {
-    setup() {
-        const store = useStore();
-        const list = [
+
+const store = useStore();
+const list = [
+    {
+        path: '/',
+        name: 'home',
+        label: '首页',
+        icon: 'House',
+        url: 'Home/Home'
+    },
+    {
+        path: '/user',
+        name: 'user',
+        label: '个人中心',
+        icon: 'user',
+        url: 'UserManage/UserManage'
+    },
+    {
+        path: '/blogs',
+        name: 'blogs',
+        label: '我的博客',
+        icon: 'Collection',
+        url: 'MallManage/MallManage'
+    },
+    {
+        label: '其它',
+        icon: 'location',
+        path:'/other',
+        children: [
             {
-                path: '/',
-                name: 'home',
-                label: '首页',
-                icon: 'House',
-                url: 'Home/Home'
+                path: '/page1',
+                name: 'page1',
+                label: '用户管理',
+                icon: 'setting',
+                url: 'Other/PageOne'
             },
             {
-                path: '/user',
-                name: 'user',
-                label: '个人中心',
-                icon: 'user',
-                url: 'UserManage/UserManage'
-            },
-            {
-                path: '/blogs',
-                name: 'blogs',
-                label: '我的博客',
-                icon: 'Collection',
-                url: 'MallManage/MallManage'
-            },
-            {
-                label: '其它',
-                icon: 'location',
-                path:'/other',
-                children: [
-                    {
-                        path: '/page1',
-                        name: 'page1',
-                        label: '用户管理',
-                        icon: 'setting',
-                        url: 'Other/PageOne'
-                    },
-                    {
-                        path: '/page2',
-                        name: 'page2',
-                        label: '博客管理',
-                        icon: 'setting',
-                        url: 'Other/PageTwo'
-                    }
-                ]
+                path: '/page2',
+                name: 'page2',
+                label: '博客管理',
+                icon: 'setting',
+                url: 'Other/PageTwo'
             }
-        ];
-        const router = useRouter();
-        const noChildren = () => {
-            return asyncList.filter((item) => !item.children);
-        };
-        const hasChildren = () => {
-            return asyncList.filter((item) => item.children);
-        };
-        const asyncList = store.state.menu;
-        const clickMenu = (item) => {
-            router.push({
-                name: item.name,
-            });
-            // vuex来管理
-            store.commit('selectMenu', item);
-        };
-        return {
-            noChildren,
-            hasChildren,
-            clickMenu
-        }
+        ]
     }
-}
+];
+const router = useRouter();
+const noChildren = () => {
+    return asyncList.filter((item) => !item.children);
+};
+const hasChildren = () => {
+    return asyncList.filter((item) => item.children);
+};
+// const asyncList = store.state.menu;
+const asyncList = list;
+const clickMenu = (item) => {
+    router.push({
+        name: item.name,
+    });
+    // vuex来管理
+    store.commit('selectMenu', item);
+};
+// 用户名
+let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+let username = userInfo.id;
 </script>
 
 <style lang="less" scoped>

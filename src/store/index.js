@@ -5,7 +5,9 @@ export default createStore({
         isCollapse: true,
         currentMenu: null,
         menu: [],
-        token:''
+        token: '',
+        username: '',
+        
     },
     mutations: {
         updateIsCollapse(state, payload) {
@@ -50,8 +52,8 @@ export default createStore({
         },
         // 登录清除数据
         cleanMenu(state) {
-            state.menu = []
-            localStorage.removeItem('menu')
+            // state.menu = []
+            localStorage.removeItem('username')
         },
         setToken(state, val) {
             state.token = val

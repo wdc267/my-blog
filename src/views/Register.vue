@@ -3,15 +3,15 @@
     <div class="register-panel">
         <div class="register-title">注册账号</div>
         <el-form label-position="right" label-width="80px" :model="registerData" :rules="rules" ref="registerDataRef">
-            <el-form-item prop="username" label="用户名" required>
-                <el-input placeholder="Please input your user name" v-model="registerData.username">
+            <el-form-item prop="id" label="用户名" required>
+                <el-input placeholder="Please input your username" v-model="registerData.id">
                 </el-input>
             </el-form-item>
             <el-form-item prop="email" label="电子邮件" required>
                 <el-input placeholder="Please input your email" v-model="registerData.email"></el-input>
             </el-form-item>
             <el-form-item prop="nickname" label="昵称">
-                <el-input placeholder="Please input your nick name" v-model="registerData.nickname"></el-input>
+                <el-input placeholder="Please input your nick name" v-model="registerData.name"></el-input>
             </el-form-item>
             <el-form-item label="性别" prop="sex">
                 <el-radio-group v-model="registerData.sex">
@@ -43,17 +43,30 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "@vue/reactivity";
+import { reactive, ref, getCurrentInstance } from "vue";
+import { ElMessage } from 'element-plus'
+import axios from 'axios'
+
 const registerDataRef = ref(null);
+// const registerData = reactive({
+//     id: 'wdc',
+//     email: '1599358835@qq.com',
+//     name: '王德才',
+//     sex: '男',
+//     telephone: '19979924861',
+//     address:'南昌',
+//     password: '123456w',
+//     confirmPassword:'123456w',
+// });
 const registerData = reactive({
-    username: '',
+    id: '',
     email: '',
-    nickname: '',
+    name: '',
     sex: '',
     telephone: '',
-    address:'',
+    address: '',
     password: '',
-    confirmPassword:'',
+    confirmPassword: '',
 });
 const validatePass = (rule, value, callback) => {
     if (value === '') {
@@ -76,15 +89,41 @@ const validatePass2 = (rule, value, callback) => {
     }
 }
 const rules = reactive({
-    username: [{ required: true, message: 'Please input username' }],
+    id: [{ required: true, message: 'Please input username' }],
     password: [{ validator: validatePass, trigger: 'blur' }],
     email: [{required: true, message: 'Please input your email'}],
     confirmPassword: [{ validator: validatePass2, trigger:'blur' }]
 })
-const register= () => {
-    registerDataRef.value.validate((valid) => {
+const { proxy } = getCurrentInstance();
+const register = () => {
+    // axios({
+    //     method: 'delete',
+    //     url: 'https://db-api.amarea.cn/users/wdc',
+    // }).then((res) => {
+    //     console.log(res);
+    // }).catch((error) => {
+    //     console.log(error);
+    // })
+    registerDataRef.value.validate( async(valid) => {
         if (!valid) {
             return;
+        } else {
+            let { confirmPassword,...userInfo} =registerData
+            await proxy.$api.addUser(userInfo)
+                .then((res) => {
+                    ElMessage({
+                        message: '恭喜你注册成功',
+                        type: 'success',
+                    })
+                    proxy.$refs.registerDataRef.resetFields();
+                    console.log(res);
+                }).catch((error) => {
+                    ElMessage({
+                        message: '注册失败',
+                        type: 'warning',
+                    })
+                    console.log(error);
+                })
         }
     });
 }

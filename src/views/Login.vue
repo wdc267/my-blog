@@ -31,48 +31,68 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, ref, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-
-export default {
-  setup() {
-    const loginDataRef = ref(null);
-    const loginData = reactive({
-      username: 'admin',
-      password: 'admin',
+import { ElMessage} from 'element-plus'
+const { proxy } = getCurrentInstance();
+const store = useStore();
+const router = useRouter();
+const loginDataRef = ref(null);
+const loginData = reactive({
+      username: 'wdc',
+      password: '123456w',
     });
-    const rules = reactive({
+const rules = reactive({
       username: [{ required: true, message: 'Please input your user name' }],
       password: [{ required: true, message: 'Please input password' }]
     })
-    // const login = () => {
-    //   loginDataRef.value.validate((valid) => {
-    //     if (!valid) {
-    //       return;
-    //     }
-    //   });
-    // }
-    const { proxy } = getCurrentInstance();
-    const store = useStore();
-    const router = useRouter();
-    const login = async() => {
-      const res = await proxy.$api.getMenu(loginData);
-      store.commit('setMenu', res.menu);
-      store.commit('addMenu', router);
-      store.commit('setToken', res.token);
-      router.push({
-        name: "home"
+const login = () => {
+  loginDataRef.value.validate( async(valid) => {
+    // 进行表单校验，若为空则返回
+    if (!valid) {
+      return;
+    } else {
+      // 发送get请求，验证username和password是否对应匹配
+      let username = loginData.username
+      // 发送get请求，验证username和password是否对应匹配
+      await proxy.$api.getUserData(username)
+        .then((res) => {
+          if (res.data.password == loginData.password) {
+            let {password,...userInfo} = res.data
+            localStorage.setItem("userInfo", JSON.stringify(userInfo));
+            // store.state.username = username;
+            router.push({
+              name: "home"
+            });
+          } else {
+            // console.log(res); 
+            ElMessage({
+              message: '登录失败，请检查密码是否正确',
+              type: 'warning',
+            })
+          }
+        })
+        .catch((error) => {
+        if (error.response) {
+          // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+          ElMessage({
+            message: '登录失败，请检查用户名是否正确',
+            type: 'warning',
+          })
+        } else if (error.request) {
+          // 请求已经成功发起，但没有收到响应
+          // `error.request` 在浏览器中是 XMLHttpRequest 的实例，
+          // 而在node.js中是 http.ClientRequest 的实例
+          console.log(error.request);
+        } else {
+          // 发送请求时出了点问题
+          console.log('Error', error.message);
+        }
       });
     }
-    return {
-      loginDataRef,
-      loginData,
-      rules,
-      login
-    }   
-  }
+  });
 }
 </script>
 

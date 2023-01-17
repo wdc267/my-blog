@@ -23,9 +23,9 @@ function checkRouter(path) {
     }
 }
 router.beforeEach((to, from, next) => {
-    store.commit('getToken')
-    const token = store.state.token
-    if (!token && to.name !== 'login') {
+    // store.commit('getToken')
+    // const token = store.state.token
+    if (!localStorage.getItem('userInfo') && to.name !== 'login') {
         next({name: 'login'})
     } else if (!checkRouter(to.path)) { 
         next({name: 'home'})
