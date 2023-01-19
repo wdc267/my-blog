@@ -52,21 +52,18 @@ const list = [
         name: 'home',
         label: '首页',
         icon: 'House',
-        url: 'Home/Home'
     },
     {
         path: '/user',
         name: 'user',
         label: '个人中心',
         icon: 'user',
-        url: 'UserManage/UserManage'
     },
     {
         path: '/blogs',
         name: 'blogs',
         label: '我的博客',
         icon: 'Collection',
-        url: 'MallManage/MallManage'
     },
     {
         label: '其它',
@@ -78,14 +75,12 @@ const list = [
                 name: 'page1',
                 label: '用户管理',
                 icon: 'setting',
-                url: 'Other/PageOne'
             },
             {
                 path: '/page2',
                 name: 'page2',
                 label: '博客管理',
                 icon: 'setting',
-                url: 'Other/PageTwo'
             }
         ]
     }
@@ -123,5 +118,6 @@ let username = userInfo.id;
         color: #fff;
         text-align: center;
     }
+    
 }
 </style>

@@ -12,7 +12,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 app.config.globalProperties.$api = api
-store.commit("addMenu", router);
 // 路由守卫
 function checkRouter(path) {
     let hashCheck = router.getRoutes().filter(route => route.path == path).length

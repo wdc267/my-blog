@@ -32,12 +32,6 @@
                         </div>
                 </div>
             </el-card>
-            <el-card shadow="hover" style="margin-top:20px" height="450px">
-                <el-table :data="tableData">
-                    <el-table-column v-for="(val, key) in tableLabel" :key="key" :prop="key" :label="val">
-                    </el-table-column>
-                </el-table>
-            </el-card>
         </el-col>
     </el-row>
 </template>
@@ -46,27 +40,9 @@
 import { getCurrentInstance, onMounted, reactive, ref } from 'vue';
 import axios from 'axios';
 const { proxy } = getCurrentInstance();
-let tableData = ref([]);
-// let countData = ref([]);
 // 用户信息
 let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-const tableLabel = {
-    name: '博客名称',
-    createDate: '创建日期',
-    updateDate: '更新日期',
-    writer: '作者名',
-}
-const getTableList = async () => {
-    let res = await proxy.$api.getTableData();
-    console.log(res);
-    tableData.value = res;
-};
-// const getCountData =  () => {
-//     userInfo =  JSON.parse(localStorage.getItem('userInfo'));
-// };
 onMounted(() => {
-    getTableList();
-    // getCountData();
 });
 </script>
 

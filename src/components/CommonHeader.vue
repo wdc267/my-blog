@@ -1,29 +1,33 @@
 <template>
 <el-header>
     <div class="l-content">
-        <el-button size="small" @click="handleCollapse">
+        <el-button size="small" @click="handleCollapse" v-if="$store.state.isHomePage">
             <el-icon :size="20">
                 <Menu/>
             </el-icon>
         </el-button>
-        <el-breadcrumb separator="/" class="bread">
+        <el-breadcrumb separator="/" class="bread" v-if="$store.state.isHomePage">
             <!-- 首页是一定存在的写死 -->
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item :to="current.path" v-if="current">{{current.label}}</el-breadcrumb-item>
         </el-breadcrumb>
+        <router-link  style="padding-left: 10px;" to="/home" v-else><a>返回首页</a></router-link>
     </div>
     <div class="r-content">
         <div class="to-login">
-            <router-link to="/register"><a>注册</a></router-link>
             <router-link to="/login"><a>登录</a></router-link>
+            <router-link to="/register"><a>注册</a></router-link>
         </div>
+        <el-button class="to-write" type="primary" @click="toWrite" v-show="$store.state.isHomePage">
+            发布博客
+        </el-button>
         <el-dropdown>
             <span class="el-dropdown-link">
                 <img class="user" :src="getImgSrc('user')" alt="">
             </span>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item>个人中心</el-dropdown-item>
+                    <el-dropdown-item @click="toUserCentre">个人中心</el-dropdown-item>
                     <el-dropdown-item @click="handleLoginOut">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </template>
@@ -32,40 +36,54 @@
 </el-header>
 </template>
 
-<script>
-import { computed, defineComponent } from "vue";
-import { useRouter } from "vue-router";
+<script setup>
+import { computed, ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useStore } from 'vuex';
-export default defineComponent({
-    setup() {
-        let store = useStore();
-        // 动态引入图片
-        const getImgSrc = (user) => {
-            return new URL(`../assets/images/${user}.jpg`, import.meta.url).href
-        };
-        let handleCollapse = () => {
-            // 调用vuex中的mutations
-            store.commit("updateIsCollapse");
-        }
-        // 计算属性
-        const current = computed(() => {
-            return store.state.currentMenu;
-        })
-        const router = useRouter();
-        const handleLoginOut = () => {
-            store.commit("cleanMenu");
-            store.commit('clearToken');
-            router.push({
-                name: 'login',
-            })
-        }
-        return {
-            getImgSrc,
-            handleCollapse,
-            current,
-            handleLoginOut,
-        }
+let store = useStore();
+// 动态引入图片
+const getImgSrc = (user) => {
+    return new URL(`../assets/images/${user}.jpg`, import.meta.url).href
+};
+// 控制菜单折叠栏
+let handleCollapse = () => {
+    // 调用vuex中的mutations
+    store.commit("updateIsCollapse");
+}
+// 计算当前菜单
+const current = computed(() => {
+    return store.state.currentMenu;
+})
+const router = useRouter();
+const handleLoginOut = () => {
+    store.commit("cleanData");
+    router.push({
+        name: 'login',
+    })
+}
+const toUserCentre = () => {
+    router.push({
+        name: 'user',
+    })
+}
+const toWrite = () => {
+    router.push({
+        name:'write',
+    })
+}
+
+const handleIsHomePage = () => {
+    let path = ref("")
+    const route = useRoute()
+    path.value = route.path
+    if (path.value == '/write') {
+        store.state.isHomePage = false;
+    } else {
+        store.state.isHomePage = true;
     }
+}
+onMounted(()=> {
+    handleIsHomePage();
 })
 </script>
 
@@ -84,6 +102,9 @@ header {
         // display: inline-block;
         margin-right: 20px;
     }
+    .to-write {
+        margin-right:10px;
+    }
     .user {
             width: 40px;
             height: 40px;
@@ -99,14 +120,9 @@ header {
     h3{
         color:#fff;
     }
-    .bread /deep/ span {
+    .bread :deep(span){
         color: #fff;
         cursor: pointer !important;
     }
-    // :deep(.bread.span) {
-    //     color: #fff;
-    //     cursor: pointer !important;
-    // }
-    
 }
 </style>

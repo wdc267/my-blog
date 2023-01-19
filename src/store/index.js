@@ -3,11 +3,128 @@ import Cookie from 'js-cookie'
 export default createStore({
     state: {
         isCollapse: true,
+        isHomePage: true,
         currentMenu: null,
-        menu: [],
-        token: '',
-        username: '',
-        
+        currentBook: 0,
+        bookList: [
+            {
+                id: '001',
+                index: 0,
+                title: "第一个笔记",
+                bookInfo: [
+                    { id: '001', index: 0, text: '吃饭', iscurrent: true, isfocus: false, ismarked: false },
+                    { id: '002', index: 1, text: '睡觉', iscurrent: false, isfocus: false, ismarked: false },
+                    { id: '003', index: 2, text: '打豆豆', iscurrent: false, isfocus: false, ismarked: false },
+                ],
+                tag: "vue",
+                createTime: "",
+                updateTime: "2022-12-12",
+                isActive: true,
+                writer: "wdc",
+            },
+            {
+                id: '002',
+                index: 1,
+                title: "第二个笔记",
+                bookInfo: [
+                    { id: '001', index: 0, text: '吃饭了', iscurrent: true, isfocus: false, ismarked: false },
+                    { id: '002', index: 1, text: '睡觉了', iscurrent: false, isfocus: false, ismarked: false },
+                    { id: '003', index: 2, text: '打豆豆了', iscurrent: false, isfocus: false, ismarked: false },
+                ],
+                tag: "react",
+                createTime: "",
+                updateTime: "2022-12-13",
+                isActive: false,
+                writer: "wdc1",
+            },
+            {
+                id: '002',
+                index: 1,
+                title: "第二个笔记",
+                bookInfo: [
+                    { id: '001', index: 0, text: '吃饭了', iscurrent: true, isfocus: false, ismarked: false },
+                    { id: '002', index: 1, text: '睡觉了', iscurrent: false, isfocus: false, ismarked: false },
+                    { id: '003', index: 2, text: '打豆豆了', iscurrent: false, isfocus: false, ismarked: false },
+                ],
+                tag: "react",
+                createTime: "",
+                updateTime: "2022-12-13",
+                isActive: false,
+                writer: "wdc1",
+            },
+            {
+                id: '002',
+                index: 1,
+                title: "第二个笔记",
+                bookInfo: [
+                    { id: '001', index: 0, text: '吃饭了', iscurrent: true, isfocus: false, ismarked: false },
+                    { id: '002', index: 1, text: '睡觉了', iscurrent: false, isfocus: false, ismarked: false },
+                    { id: '003', index: 2, text: '打豆豆了', iscurrent: false, isfocus: false, ismarked: false },
+                ],
+                tag: "react",
+                createTime: "",
+                updateTime: "2022-12-13",
+                isActive: false,
+                writer: "wdc1",
+            },
+            {
+                id: '002',
+                index: 1,
+                title: "第二个笔记",
+                bookInfo: [
+                    { id: '001', index: 0, text: '吃饭了', iscurrent: true, isfocus: false, ismarked: false },
+                    { id: '002', index: 1, text: '睡觉了', iscurrent: false, isfocus: false, ismarked: false },
+                    { id: '003', index: 2, text: '打豆豆了', iscurrent: false, isfocus: false, ismarked: false },
+                ],
+                tag: "react",
+                createTime: "",
+                updateTime: "2022-12-13",
+                isActive: false,
+                writer: "wdc1",
+            },
+            {
+                id: '002',
+                index: 1,
+                title: "第二个笔记",
+                bookInfo: [
+                    { id: '001', index: 0, text: '吃饭了', iscurrent: true, isfocus: false, ismarked: false },
+                    { id: '002', index: 1, text: '睡觉了', iscurrent: false, isfocus: false, ismarked: false },
+                    { id: '003', index: 2, text: '打豆豆了', iscurrent: false, isfocus: false, ismarked: false },
+                ],
+                tag: "react",
+                createTime: "",
+                updateTime: "2022-12-13",
+                isActive: false,
+                writer: "wdc1",
+            },
+            {
+                id: '002',
+                index: 1,
+                title: "第二个笔记",
+                bookInfo: [
+                    { id: '001', index: 0, text: '吃饭了', iscurrent: true, isfocus: false, ismarked: false },
+                    { id: '002', index: 1, text: '睡觉了', iscurrent: false, isfocus: false, ismarked: false },
+                    { id: '003', index: 2, text: '打豆豆了', iscurrent: false, isfocus: false, ismarked: false },
+                ],
+                tag: "react",
+                createTime: "",
+                updateTime: "2022-12-13",
+                isActive: false,
+                writer: "wdc1",
+            },
+        ],
+    },
+    getters: {
+        nowIndex(state) {
+            let a = 0//当前有current类的cell的下标
+            for (let i = 0; i < state.bookList[state.currentBook].bookInfo.length; i++) {
+                if (state.bookList[state.currentBook].bookInfo[i].iscurrent || state.bookList[state.currentBook].bookInfo[i].isfocus) {
+                    a = i;
+                    break;
+                }
+            }
+            return a;
+        }
     },
     mutations: {
         updateIsCollapse(state, payload) {
@@ -22,49 +139,10 @@ export default createStore({
             state.menu = val
             localStorage.setItem('menu', JSON.stringify(val))
         },
-        // 实现数据持久化
-        addMenu(state, router) {
-            if (!localStorage.getItem('menu')) {
-                return
-            }
-            const menu = JSON.parse(localStorage.getItem('menu'))
-            state.menu = menu
-
-            const menuArray = []
-
-            menu.forEach(item => {
-                if (item.children) {
-                    item.children = item.children.map(item => {
-                        let url = `../views/${item.url}.vue`
-                        item.component = () => import(url)
-                        return item
-                    })
-                    menuArray.push(...item.children)
-                } else {
-                    let url = `../views/${item.url}.vue`
-                    item.component = () => import(url)
-                    menuArray.push(item)
-                }
-            })
-            menuArray.forEach(item => {
-                router.addRoute('home1', item);
-            })
-        },
         // 登录清除数据
-        cleanMenu(state) {
+        cleanData(state) {
             // state.menu = []
-            localStorage.removeItem('username')
+            localStorage.removeItem('userInfo')
         },
-        setToken(state, val) {
-            state.token = val
-            Cookie.set('token',val)
-        },
-        clearToken(state) {
-            state.token = ''
-            Cookie.remove('token')
-        },
-        getToken(state) {
-            state.token = state.token || Cookie.get('token')
-        }
     }
 })

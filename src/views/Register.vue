@@ -48,16 +48,6 @@ import { ElMessage } from 'element-plus'
 import axios from 'axios'
 
 const registerDataRef = ref(null);
-// const registerData = reactive({
-//     id: 'wdc',
-//     email: '1599358835@qq.com',
-//     name: '王德才',
-//     sex: '男',
-//     telephone: '19979924861',
-//     address:'南昌',
-//     password: '123456w',
-//     confirmPassword:'123456w',
-// });
 const registerData = reactive({
     id: '',
     email: '',
@@ -96,14 +86,6 @@ const rules = reactive({
 })
 const { proxy } = getCurrentInstance();
 const register = () => {
-    // axios({
-    //     method: 'delete',
-    //     url: 'https://db-api.amarea.cn/users/wdc',
-    // }).then((res) => {
-    //     console.log(res);
-    // }).catch((error) => {
-    //     console.log(error);
-    // })
     registerDataRef.value.validate( async(valid) => {
         if (!valid) {
             return;

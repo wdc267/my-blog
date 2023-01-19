@@ -6,7 +6,7 @@ import { ElMessage } from 'element-plus'
 const NETWORK_ERROR = '网络请求异常，请稍后再试.....'
 // 创建一个axios实例对象
 const service = axios.create({
-    baseURL: config.baseApi,
+    baseURL: "https://db-api.amarea.cn",
     timeout: 5000 // 请求超时时间
 })
 // 在请求之前做一些事情
@@ -37,14 +37,15 @@ function request(options) {
     if (typeof options.mock !== 'undefined') {
         isMock = options.mock
     }
-    // 对线上环境做处理
-    if (config.env == 'prod') {
-        // 不给你用到mock的机会
-        service.defaults.baseURL = config.baseApi
-    } else {
-        // 
-        service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
-    }
+    // // 对线上环境做处理
+    // if (config.env == 'prod') {
+    //     // 不给你用到mock的机会
+    //     service.defaults.baseURL = config.baseApi
+    // } else {
+    //     // 
+    //     service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
+    // }
+    service.defaults.baseURL = "https://db-api.amarea.cn"
     return service(options)
 }
 

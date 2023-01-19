@@ -14,16 +14,15 @@ export default defineConfig({
     }),],
   base: '/my-blog/',
   // 后端配置
-  // server: {
-  //   hmr: true,
-  //   port: 3001,
+  // devServer: {
+  //   // hmr: true,
+  //   // port: 3001,
   //   proxy: {
   //     '/api': {
-  //       target: 'http://localhost:8081/',
-  //       secure: false,
+  //       target: 'https://db-api.amarea.cn',
   //       changeOrigin: true,
   //       pathRewrite: {
-  //         '^/api': '/api',
+  //         '^/api': '/',
   //       },
   //     }
   //   }

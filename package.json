@@ -16,7 +16,9 @@
     "js-cookie": "^3.0.1",
     "less": "^4.1.2",
     "less-loader": "^6.0.0",
+    "markdown-it": "^13.0.1",
     "mockjs": "^1.1.0",
+    "nanoid": "^4.0.0",
     "path": "^0.12.7",
     "qs": "^6.11.0",
     "vue": "^3.2.45",
@@ -24,6 +26,7 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
     "@vitejs/plugin-vue": "^4.0.0",
     "gh-pages": "^4.0.0",
     "unplugin-auto-import": "^0.12.1",

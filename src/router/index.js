@@ -7,7 +7,8 @@ import User from '../views/User.vue'
 import Blogs from '../views/Blogs.vue'
 import Page1 from '../views/Page1.vue'
 import Page2 from '../views/Page2.vue'
-// import { makeInstaller } from 'element-plus';
+import Write from '../views/Write.vue'
+
 const routes = [
     {
         name: 'login',
@@ -18,6 +19,11 @@ const routes = [
         name: 'register',
         path: '/register',
         component: Register
+    },
+    {
+        name: 'write',
+        path: '/write',
+        component: Write
     },
     {
         path: '/',
