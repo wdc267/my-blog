@@ -5,7 +5,6 @@ import router from '@/router'
 import '@/assets/icon/iconfont.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import store from './store/index.js'
-import './api/mock.js'
 import api from './api/api'
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -22,9 +21,7 @@ function checkRouter(path) {
     }
 }
 router.beforeEach((to, from, next) => {
-    // store.commit('getToken')
-    // const token = store.state.token
-    if (!localStorage.getItem('userInfo') && to.name !== 'login') {
+    if (!localStorage.getItem('userInfo') && to.name !== 'login' && to.name !== 'register'){
         next({name: 'login'})
     } else if (!checkRouter(to.path)) { 
         next({name: 'home'})

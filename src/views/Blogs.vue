@@ -2,17 +2,17 @@
   <div class="container">
     <div class="blog-content">
       <div class="active-blog" v-for="blog in $store.state.bookList" :key="blog.id" :index="blog.index">
-        <a class="blog-title" >{{blog.title}}</a>
-        <p class="desc">{{ blog.bookInfo[0].text }}</p>
+        <a class="blog-title" @click="toView(blog.id)">{{blog.title ? blog.title : '未命名'}}</a>
+        <p class="desc" @click="toView(blog.id)">{{ blog.bookInfo[0].text ? blog.bookInfo[0].text : ''}}</p>
         <div class="blog-info">
           <div class="create-time">{{ blog.updateTime }}</div>
           <div class="writer">作者：<a>{{ blog.writer }}</a></div>
-          <div class="tag-name">分类：<a>{{ blog.tag }}</a></div>
+          <div class="tag-name">分类：<a>{{ blog.tag ? blog.tag : '未分类' }}</a></div>
         </div>
         <div class="operate-blog">
-          <a class="edit"><span>编辑</span></a>
-          <a class="view"><span>浏览</span></a>
-          <a class="delete"><span>删除</span></a>
+          <a class="edit" @click="toEdit(blog.id)"><span>编辑</span></a>
+          <a class="view" @click="toView(blog.id)"><span>浏览</span></a>
+          <a class="delete" @click="delBlog(blog.id)"><span>删除</span></a>
         </div>
       </div>
     </div>
@@ -21,8 +21,27 @@
 
 <script setup>
 import { useStore } from 'vuex';
+import { useRouter } from "vue-router";
 const store = useStore();
-
+const router = useRouter();
+const toEdit = (blogId) => {
+  console.log(blogId);
+  let index = (store.state.bookList || []).findIndex((item) => item.id === blogId);
+  store.commit("changeBookActive", index);
+  router.push({
+    name: 'write',
+  })
+}
+const toView = (blogId) => {
+  let index = (store.state.bookList || []).findIndex((item) => item.id === blogId);
+  router.push({
+    name:'view', query:{index: index}
+  })
+}
+const delBlog = (blogId) => {
+  let index = (store.state.bookList || []).findIndex((item) => item.id === blogId);
+  store.state.bookList.splice(index, 1);
+}
 </script>
 <style lang="less" scoped>
 .container {

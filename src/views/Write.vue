@@ -11,8 +11,18 @@
                 <el-main>
                     <Menubar />       
                     <div id="content">
-                        <h1>{{ $store.state.bookList[$store.state.currentBook].title }}</h1>
-                        <MyCell v-for="cell in $store.state.bookList[$store.state.currentBook].bookInfo" :key="cell.id" :index="cell.index" :cell="cell" />
+                        <el-input 
+                        v-model="$store.state.bookList[$store.getters.nowBook].title"
+                        resize = "none" 
+                        class = "blog-title"
+                        autosize type="textarea" 
+                        placeholder="请输入文章的标题" />
+                        <MyCell 
+                        style="text-align: left"
+                        v-for="cell in $store.state.bookList[$store.getters.nowBook].bookInfo" 
+                        :key="cell.id" 
+                        :index="cell.index" 
+                        :cell="cell" />
                     </div>
             </el-main>
             </el-container>
@@ -34,7 +44,7 @@ let handleWidth = (value) => {
     slideWidth.value = value;
 }
 // 当前笔记
-let currentBook = store.state.currentBook;
+let currentBook = store.getters.nowBook;
 const handleUp = (event) => {
     if (event.key === 'ArrowUp')
         for (let i = 1; i < store.state.bookList[currentBook].bookInfo.length; i++) {
@@ -79,17 +89,17 @@ onUnmounted(() => {
         padding: 0;
         margin: 0;
     }
-    // .el-aside {
-    //         background: #545c64;   
-    //     }
 }
 
 #content {
     margin-top: 20px;
     background-color: #ffffff;
     padding: 10px 0;
-}
-h1 {
-    text-align: center;
+    text-align:center;
+    .blog-title {
+        width: 87% !important;
+        font-size: 15px;
+        outline: none !important;
+    }
 }
 </style>

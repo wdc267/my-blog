@@ -1,7 +1,5 @@
 import axios from 'axios'
-import config from '../config'
 import { ElMessage } from 'element-plus'
-// import { options } from 'less'
 
 const NETWORK_ERROR = '网络请求异常，请稍后再试.....'
 // 创建一个axios实例对象
@@ -32,19 +30,6 @@ function request(options) {
     if (options.method.toLowerCase() == 'get') {
         options.params = options.data
     }
-    // 对mock的处理(单独处理)，如果单独定义的mock有定义忽略总的mock
-    let isMock = config.mock
-    if (typeof options.mock !== 'undefined') {
-        isMock = options.mock
-    }
-    // // 对线上环境做处理
-    // if (config.env == 'prod') {
-    //     // 不给你用到mock的机会
-    //     service.defaults.baseURL = config.baseApi
-    // } else {
-    //     // 
-    //     service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
-    // }
     service.defaults.baseURL = "https://db-api.amarea.cn"
     return service(options)
 }

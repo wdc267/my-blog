@@ -100,7 +100,7 @@ const login = () => {
 .login-body {
   width:100%;
   height: calc(100vh);
-  background: url(../assets/login_bg.jpg) no-repeat center;
+  background: url(https://s1.ax1x.com/2023/01/20/pSGuuMq.jpg) no-repeat center;
   /* 让背景图基于容器大小伸缩 */
   background-size: cover;
   /* 解决外边距塌陷 */

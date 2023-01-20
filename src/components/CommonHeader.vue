@@ -67,6 +67,9 @@ const toUserCentre = () => {
     })
 }
 const toWrite = () => {
+    // 创建一个新的book
+    // 获取到一个新的book并跳转
+    store.commit("addBook");
     router.push({
         name:'write',
     })

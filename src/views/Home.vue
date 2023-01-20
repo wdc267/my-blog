@@ -3,12 +3,12 @@
     <div class="blog-content">
       <div style="border-bottom: 1px solid #ddd"><h1 style="margin: 0 5px">热门博客</h1></div>
       <div class="active-blog" v-for="blog in $store.state.bookList" :key="blog.id" :index="blog.index">
-        <a class="blog-title">{{ blog.title }}</a>
-        <p class="desc">{{ blog.bookInfo[0].text }}</p>
+        <a class="blog-title" @click="toView(blog.id)">{{blog.title ? blog.title : '未命名'}}</a>
+        <p class="desc" @click="toView(blog.id)">{{ blog.bookInfo[0].text ? blog.bookInfo[0].text : ''}}</p>
         <div class="blog-info">
           <div class="create-time">{{ blog.updateTime }}</div>
           <div class="writer">作者：<a>{{ blog.writer }}</a></div>
-          <div class="tag-name">分类：<a>{{ blog.tag }}</a></div>
+          <div class="tag-name">分类：<a>{{ blog.tag ? blog.tag : '未分类' }}</a></div>
         </div>
       </div>
     </div>
@@ -16,14 +16,24 @@
       <div style="border-bottom: 1px solid #ddd">
         <h1 style="margin: 0 5px">分类博客</h1>
       </div>
+      <P>python<span>0篇</span></P>
+      <P>vue<span>0篇</span></P>
+      <P>java<span>0篇</span></P>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router'
 const store = useStore();
-
+const router = useRouter();
+const toView = (blogId) => {
+  let index = (store.state.bookList || []).findIndex((item) => item.id === blogId);
+  router.push({
+    name: 'view', query: { index: index }
+  })
+}
 </script>
 <style lang="less" scoped>
 .container {
@@ -67,8 +77,7 @@ const store = useStore();
         font-size: 12px;
         align-items: center;
 
-        .writer,
-        .tag-name {
+        .writer,.tag-name {
           margin-left: 10px;
 
           a {
@@ -85,6 +94,13 @@ const store = useStore();
     background-color: #fff;
     padding: 10px;
     margin-left: 10px;
+    p{
+      span{
+        font-size: 10px;
+        color:#5f6471;
+        float: right;
+      }
+    }
   }
 
 }

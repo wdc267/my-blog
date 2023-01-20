@@ -13,7 +13,7 @@
         v-show="!cell.ismarked"
          :autosize="{ minRows: 2}">
         </el-input>
-        <div v-show="cell.ismarked" v-html="markdown(cell.text)"></div>
+        <div class="markText" v-show="cell.ismarked" v-html="markdown(cell.text)"></div>
     </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
     props: ['cell'], //父组件向子组件传递cell相应数据
     setup() {
         const store = useStore();
-        const currentBook = store.state.currentBook;
+        const currentBook = store.getters.nowBook;
         function setFocus (i) {
             store.state.bookList[currentBook].bookInfo.forEach(function (cell) {
                 cell.isfocus = false
@@ -72,5 +72,11 @@ export default {
 .focus {
     border: 1px solid #409eff;
     border-left: 5px solid #409eff;
+}
+.markText {
+    P {
+        margin: 0;
+        padding: 0;
+    }
 }
 </style>

@@ -11,8 +11,8 @@
                     </div>
                 </div>
                 <div class="login-info">
-                    <p>上次登录时间：<span>2023-1-1</span></p>
-                    <p>上次登录地点：<span>南昌</span></p>
+                    <p>登录时间：<span>{{ logindate }}</span></p>
+                    <p>登录地点：<span>{{ loginpos }}</span></p>
                 </div>
             </el-card>
         </el-col>
@@ -42,7 +42,14 @@ import axios from 'axios';
 const { proxy } = getCurrentInstance();
 // 用户信息
 let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+let logindate = ref('2023-1-1');
+let loginpos = ref('江西南昌');
 onMounted(() => {
+    let nowdate = new Date();
+    let year = nowdate.getFullYear();
+    let month = nowdate.getMonth() + 1;
+    let date = nowdate.getDate();
+    logindate.value = year + '-' + month + '-' + date;
 });
 </script>
 

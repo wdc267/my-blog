@@ -1,35 +1,35 @@
 <template>
     <div id="menubar" class="w">
         <div class="dropdown">
-            <a href="#/write">File</a>
+            <a>File</a>
             <div class="dropdown-content">
-                <a href="#/write">New Notebook</a>
-                <a href="#/write">Open</a>
-                <a href="#/write">Save</a>
+                <a>New Notebook</a>
+                <a>Open</a>
+                <a>Save</a>
             </div>
         </div>
         <div class="dropdown">
-            <a href="#/write">Edit</a>
+            <a>Edit</a>
         </div>
         <div class="dropdown">
-            <a href="#/write">View</a>
+            <a>View</a>
         </div>
         <div class="dropdown">
-            <a href="#/write">Insert</a>
+            <a>Insert</a>
             <div class="dropdown-content">
-                <a href="#/write" @click="addCell($store.getters.nowIndex-1)">Insert Cell Above</a>
-                <a href="#/write" @click="addCell($store.getters.nowIndex)">Insert Cell Below</a>
+                <a @click="addCell($store.getters.nowIndex-1)">Insert Cell Above</a>
+                <a @click="addCell($store.getters.nowIndex)">Insert Cell Below</a>
             </div>
         </div>
         <div class="dropdown">
-            <a href="#/write">Setting</a>
+            <a>Setting</a>
             <div class="dropdown-content">
-                <a href="#/write">Switch the theme</a>
-                <a href="#/write">font-size</a>
+                <a>Switch the theme</a>
+                <a>font-size</a>
             </div>
         </div>
         <div class="dropdown">
-            <a href="#/write">Help</a>
+            <a>Help</a>
         </div>
     </div>
     <div id="maintoolbar">
@@ -38,7 +38,7 @@
             <el-button icon="Scissor" @click="delCell($store.getters.nowIndex)" plain />
             <el-button icon="Top" @click="moveUp($store.getters.nowIndex)" plain />
             <el-button icon="Bottom" @click="moveDown($store.getters.nowIndex)" plain />
-            <el-button plain>保存</el-button>
+            <el-button plain @click="saveBlog">保存</el-button>
             <el-button plain>提交</el-button>
         </el-row>
     </div>
@@ -48,12 +48,13 @@ import { ref } from 'vue';
 import { useStore } from 'vuex'; 
 import { nanoid } from 'nanoid'
 const store = useStore();
+// 对cell重新排序
 const changeIndex = () => {
     store.state.bookList[currentBook].bookInfo.forEach(function (cell, index) {
         cell.index = index;
     });
 }
-let currentBook = store.state.currentBook;
+let currentBook = store.getters.nowBook;
 // 添加一个cell网格
 const addCell = (i) => {
     const cell = { id: nanoid(), index: -1, text: '', iscurrent: false, isfocus: false, ismarked: false }
@@ -87,7 +88,6 @@ const moveUp = (a) => {
     }
     changeIndex();
 }
-
 // 将Cell网格向下移
 const moveDown = (a) => {
     if (a + 2 <= store.state.bookList[currentBook].bookInfo.length) {
@@ -96,6 +96,10 @@ const moveDown = (a) => {
         store.state.bookList[currentBook].bookInfo.splice(a, 1)
         changeIndex();
     }
+}
+// 保存当前内容
+const saveBlog = () => {
+    console.log(store.state.bookList[currentBook]);
 }
 </script>
 

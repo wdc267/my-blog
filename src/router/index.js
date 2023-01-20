@@ -8,6 +8,7 @@ import Blogs from '../views/Blogs.vue'
 import Page1 from '../views/Page1.vue'
 import Page2 from '../views/Page2.vue'
 import Write from '../views/Write.vue'
+import View from '../views/View.vue'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         name: 'write',
         path: '/write',
         component: Write
+    },
+    {
+        name: 'view',
+        path: '/view',
+        component: View
     },
     {
         path: '/',
