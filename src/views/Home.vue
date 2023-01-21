@@ -19,6 +19,8 @@
       <P>python<span>0篇</span></P>
       <P>vue<span>0篇</span></P>
       <P>java<span>0篇</span></P>
+      <a style="color: #409EFF" href="https://q9z03c5wb4.feishu.cn/docx/C4Exd2hzaoziioxlVM1ckEi1nmb?from=from_copylink">实验报告飞书链接</a>
+      <br><a style="color: #409EFF" href="https://github.com/wdc267/my-blog">github仓库链接</a>
     </div>
   </div>
 </template>
