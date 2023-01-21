@@ -20,14 +20,14 @@ function checkRouter(path) {
         return false
     }
 }
-// router.beforeEach((to, from, next) => {
-//     if (!localStorage.getItem('userInfo') && to.name !== 'login' && to.name !== 'register'){
-//         next({name: 'login'})
-//     } else if (!checkRouter(to.path)) { 
-//         next({name: 'home'})
-//     } else {
-//         next()
-//     }
-// })
+router.beforeEach((to, from, next) => {
+    if (!localStorage.getItem('userInfo') && to.name !== 'login' && to.name !== 'register'){
+        next({name: 'login'})
+    } else if (!checkRouter(to.path)) { 
+        next({name: 'home'})
+    } else {
+        next()
+    }
+})
 app.use(router).use(store);
 app.mount('#app')

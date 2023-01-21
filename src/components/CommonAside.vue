@@ -66,12 +66,6 @@ const list = [
         icon: 'Collection',
     },
     {
-        path: '/report',
-        name: 'report',
-        label: '实验报告',
-        icon: 'Document',
-    },
-    {
         label: '其它',
         icon: 'location',
         path:'/other',

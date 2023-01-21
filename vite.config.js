@@ -13,20 +13,6 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),],
   base: '/my-blog/',
-  // 后端配置
-  // devServer: {
-  //   // hmr: true,
-  //   // port: 3001,
-  //   proxy: {
-  //     '/api': {
-  //       target: 'https://db-api.amarea.cn',
-  //       changeOrigin: true,
-  //       pathRewrite: {
-  //         '^/api': '/',
-  //       },
-  //     }
-  //   }
-  // },
 
   build: {
     sourcemap: false,

@@ -9,7 +9,6 @@ import Page1 from '../views/Page1.vue'
 import Page2 from '../views/Page2.vue'
 import Write from '../views/Write.vue'
 import View from '../views/View.vue'
-import Report from '../views/Report.vue'
 const routes = [
     {
         name: 'login',
@@ -62,11 +61,6 @@ const routes = [
                 path: '/page2',
                 component: Page2
             },
-            {
-                name: 'report',
-                path: '/report',
-                component: Report
-            }
         ]
         // children: []
     },
