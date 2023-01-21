@@ -106,6 +106,21 @@ const register = () => {
                     })
                     console.log(error);
                 })
+            await proxy.$api.addBookInfo(userInfo.id)
+                .then((res) => {
+                    ElMessage({
+                        message: '恭喜你添加书籍成功',
+                        type: 'success',
+                    })
+                    proxy.$refs.registerDataRef.resetFields();
+                    console.log(res);
+                }).catch((error) => {
+                    ElMessage({
+                        message: '添加书籍失败',
+                        type: 'warning',
+                    })
+                    console.log(error);
+                })
         }
     });
 }

@@ -59,7 +59,7 @@ const toView = (blogId) => {
       }
 
       p.desc {
-        width: 95%;
+        width: 600px;
         font-size: 14px;
         font-weight: 400;
         // 不换行

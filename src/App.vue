@@ -3,6 +3,10 @@
 </template>
 
 <script setup>
+import { useStore } from 'vuex'
+const store = useStore();
+store.commit("addBookList");
+store.commit("addUserInfo");
 </script>
 
 <style>

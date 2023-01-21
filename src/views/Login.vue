@@ -61,8 +61,7 @@ const login = () => {
         .then((res) => {
           if (res.data.password == loginData.password) {
             let {password,...userInfo} = res.data
-            localStorage.setItem("userInfo", JSON.stringify(userInfo));
-            // store.state.username = username;
+            store.commit("setUserInfo", userInfo);
             router.push({
               name: "home"
             });
@@ -74,22 +73,12 @@ const login = () => {
             })
           }
         })
+    await proxy.$api.getBookInfo(username)
+      .then((res) => {
+        store.commit("setBook", res.data.bookList);
+        })
         .catch((error) => {
-        if (error.response) {
-          // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-          ElMessage({
-            message: '登录失败，请检查用户名是否正确',
-            type: 'warning',
-          })
-        } else if (error.request) {
-          // 请求已经成功发起，但没有收到响应
-          // `error.request` 在浏览器中是 XMLHttpRequest 的实例，
-          // 而在node.js中是 http.ClientRequest 的实例
-          console.log(error.request);
-        } else {
-          // 发送请求时出了点问题
-          console.log('Error', error.message);
-        }
+          console.log(error);
       });
     }
   });

@@ -38,21 +38,23 @@
             <el-button icon="Scissor" @click="delCell($store.getters.nowIndex)" plain />
             <el-button icon="Top" @click="moveUp($store.getters.nowIndex)" plain />
             <el-button icon="Bottom" @click="moveDown($store.getters.nowIndex)" plain />
-            <el-button plain @click="saveBlog">保存</el-button>
-            <el-button plain>提交</el-button>
+            <el-button plain @click="submitBlog">提交</el-button>
         </el-row>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, getCurrentInstance } from 'vue';
 import { useStore } from 'vuex'; 
 import { nanoid } from 'nanoid'
+import { ElMessage } from 'element-plus';
 const store = useStore();
+const { proxy } = getCurrentInstance();
 // 对cell重新排序
 const changeIndex = () => {
     store.state.bookList[currentBook].bookInfo.forEach(function (cell, index) {
         cell.index = index;
     });
+    store.commit("setBook", store.state.bookList);
 }
 let currentBook = store.getters.nowBook;
 // 添加一个cell网格
@@ -98,8 +100,23 @@ const moveDown = (a) => {
     }
 }
 // 保存当前内容
-const saveBlog = () => {
-    console.log(store.state.bookList[currentBook]);
+const submitBlog = async() => {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    let data = JSON.parse(JSON.stringify(store.state.bookList));
+    console.log(userInfo.id);
+    await proxy.$api.updateBookList(userInfo.id, data)
+        .then((res) => {
+            ElMessage({
+                message: '添加成功',
+                type: 'success',
+            })
+        })
+        .catch((error) => {
+            ElMessage({
+                message: '失败',
+                type:'warning',
+            })
+        })
 }
 </script>
 

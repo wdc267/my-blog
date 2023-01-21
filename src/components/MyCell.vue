@@ -73,10 +73,4 @@ export default {
     border: 1px solid #409eff;
     border-left: 5px solid #409eff;
 }
-.markText {
-    P {
-        margin: 0;
-        padding: 0;
-    }
-}
 </style>

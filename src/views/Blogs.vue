@@ -20,12 +20,14 @@
 </template>
 
 <script setup>
+import { getCurrentInstance } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from "vue-router";
+import { ElMessage } from 'element-plus';
+const { proxy } = getCurrentInstance();
 const store = useStore();
 const router = useRouter();
 const toEdit = (blogId) => {
-  console.log(blogId);
   let index = (store.state.bookList || []).findIndex((item) => item.id === blogId);
   store.commit("changeBookActive", index);
   router.push({
@@ -38,9 +40,21 @@ const toView = (blogId) => {
     name:'view', query:{index: index}
   })
 }
-const delBlog = (blogId) => {
+const delBlog = async(blogId) => {
   let index = (store.state.bookList || []).findIndex((item) => item.id === blogId);
   store.state.bookList.splice(index, 1);
+  await proxy.$api.updateBookList(store.state.userInfo.id,store.state.bookList)
+    .then((res) => {
+      ElMessage({
+        message: '删除成功',
+        type: 'success',
+    })
+    }).catch((err) => {
+      ElMessage({
+        message: '添加书籍失败',
+        type: 'warning',
+      })
+  })
 }
 </script>
 <style lang="less" scoped>

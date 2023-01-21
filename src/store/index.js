@@ -1,4 +1,5 @@
 import { createStore, storeKey } from 'vuex'
+// import { getCurrentInstance } from 'vue'
 import { nanoid } from 'nanoid'
 export default createStore({
     state: {
@@ -7,37 +8,8 @@ export default createStore({
         currentMenu: null,
         currentBook: 0,
         bookList: [
-            {
-                id: '001',
-                index: 0,
-                title: "第一个笔记",
-                bookInfo: [
-                    { id: '001', index: 0, text: '吃饭', iscurrent: true, isfocus: false, ismarked: false },
-                    { id: '002', index: 1, text: '睡觉', iscurrent: false, isfocus: false, ismarked: false },
-                    { id: '003', index: 2, text: '打豆豆', iscurrent: false, isfocus: false, ismarked: false },
-                ],
-                tag: "vue",
-                createTime: "2022-12-12",
-                updateTime: "2022-12-12",
-                isActive: true,
-                writer: "wdc",
-            },
-            {
-                id: '002',
-                index: 1,
-                title: "第二个笔记",
-                bookInfo: [
-                    { id: '001', index: 0, text: '吃饭了', iscurrent: true, isfocus: false, ismarked: false },
-                    { id: '002', index: 1, text: '睡觉了', iscurrent: false, isfocus: false, ismarked: false },
-                    { id: '003', index: 2, text: '打豆豆了', iscurrent: false, isfocus: false, ismarked: false },
-                ],
-                tag: "react",
-                createTime: "",
-                updateTime: "2022-12-13",
-                isActive: false,
-                writer: "wdc1",
-            },
         ],
+        userInfo: {},
     },
     getters: {
         nowIndex(state, getters) {
@@ -69,15 +41,36 @@ export default createStore({
             // 判断
             val.name == 'home' ? (state.currentMenu = null) : (state.currentMenu = val)
         },
-        // 实现不同用户登录，不同菜单的展示
-        setMenu(state, val) {
-            state.menu = val
-            localStorage.setItem('menu', JSON.stringify(val))
+        setUserInfo(state, val) {
+            state.userInfo = val
+            localStorage.setItem('userInfo', JSON.stringify(val))
+        },
+        // 数据持久化
+        addUserInfo(state) {
+            if (!localStorage.getItem('userInfo')) {
+                return
+            }
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            state.userInfo = userInfo;
+        },
+        // 设置bookList，并保存到localStorage中
+        setBook(state, val) {
+            state.bookList = val
+            localStorage.setItem('bookList', JSON.stringify(val))
+        },
+        // 数据持久化
+        addBookList(state) {
+            if (!localStorage.getItem('bookList')) {
+                return
+            }
+            const bookList = JSON.parse(localStorage.getItem('bookList'))
+            state.bookList = bookList;
         },
         // 登录清除数据
         cleanData(state) {
             // state.menu = []
             localStorage.removeItem('userInfo')
+            localStorage.removeItem('bookList')
         },
         // 创建一个新的book
         addBook(state) {
@@ -93,16 +86,16 @@ export default createStore({
             let userInfo = JSON.parse(localStorage.getItem('userInfo'));
             const newBook = {
                 id: nanoid(),
-                index: state.bookList.length,
                 title: '',
-                bookInfo: [{ id: nanoid(), index: 0, text: '123', iscurrent: true, isfocus: false, ismarked: false },],
-                tag: '',
+                bookInfo: [{ id: nanoid(), index: 0, text: '', iscurrent: true, isfocus: false, ismarked: false },],
+                tag: 'vue',
                 createTime: createTime,
                 updateTime: createTime,
                 isActive: true,
                 writer: userInfo.id
             }
             state.bookList.push(newBook);
+            localStorage.setItem('bookList', JSON.stringify(state.bookList));
         },
         // 改变blog编辑转态
         changeBookActive(state,index) {

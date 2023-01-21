@@ -66,6 +66,12 @@ const list = [
         icon: 'Collection',
     },
     {
+        path: '/report',
+        name: 'report',
+        label: '实验报告',
+        icon: 'Document',
+    },
+    {
         label: '其它',
         icon: 'location',
         path:'/other',
@@ -101,9 +107,7 @@ const clickMenu = (item) => {
     // vuex来管理
     store.commit('selectMenu', item);
 };
-// 用户名
-let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-let username = userInfo.id;
+let username = store.state.userInfo.id;
 </script>
 
 <style lang="less" scoped>

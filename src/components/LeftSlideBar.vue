@@ -13,11 +13,13 @@
                     <el-icon>
                         <Notebook />
                     </el-icon>
-                    <span>Note List</span>
+                    <span>笔记信息</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="1-2">note one</el-menu-item>
-                    <el-menu-item index="1-3">note two</el-menu-item>
+                    <el-menu-item index="1-1">作者：{{ book.writer }}</el-menu-item>
+                    <el-menu-item index="1-2">创建时间： {{ book.createTime }}</el-menu-item>
+                    <el-menu-item index="1-3">tag： {{ book.tag }}</el-menu-item>
+                    <el-menu-item index="1-4">id： {{ book.id }}</el-menu-item>
                 </el-menu-item-group>
             </el-sub-menu>
             <el-sub-menu index="2">
@@ -25,19 +27,12 @@
                     <el-icon>
                         <location />
                     </el-icon>
-                    <span>Tag List</span>
+                    <span>Cell 信息</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="2-1">item one</el-menu-item>
-                    <el-menu-item index="2-2">item two</el-menu-item>
+                    <el-menu-item index="2-1">id:{{ book.bookInfo[$store.getters.nowIndex].id }}</el-menu-item>
+                    <el-menu-item index="2-2">index:{{ book.bookInfo[$store.getters.nowIndex].index }}</el-menu-item>
                 </el-menu-item-group>
-                <el-menu-item-group title="Group Two">
-                    <el-menu-item index="2-3">item three</el-menu-item>
-                </el-menu-item-group>
-                <el-sub-menu index="2-4">
-                    <template #title><span>item four</span></template>
-                    <el-menu-item index="2-4-1">item one</el-menu-item>
-                </el-sub-menu>
             </el-sub-menu>
         </el-menu>
     </div>
@@ -45,6 +40,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore();
 const emit = defineEmits(['handleWidth'])
 let isCollapse = ref(true)
 const handleState = () => {
@@ -58,6 +55,8 @@ const handleOpen = (key, keyPath) => {
 const handleClose = (key, keyPath) => {
     console.log(key, keyPath);
 }
+// 获取book信息
+const book = store.state.bookList[store.getters.nowBook];
 </script>
 
 <style lang="less" scoped>
@@ -71,7 +70,7 @@ const handleClose = (key, keyPath) => {
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 150px;
+    width: 200px;
     min-height: 100px;
 }
 </style>

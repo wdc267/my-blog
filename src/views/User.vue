@@ -4,7 +4,7 @@
         <el-col :span="24" style="margin-top: 20px">
             <el-card shadow="hover">
                 <div class="user">
-                    <img src="../assets/images/user.jpg" alt="">
+                    <img src="https://s1.ax1x.com/2023/01/20/pSG8gN6.jpg" alt="">
                     <div class="user-role">
                         <p class="name">{{userInfo.id}}</p>
                         <p class="role">{{ userInfo.id == 'wdc' ? '管理员' : '用户' }}</p>
@@ -37,11 +37,13 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue';
+import { getCurrentInstance, onMounted, ref } from 'vue';
+import { useStore } from 'vuex'
 import axios from 'axios';
 const { proxy } = getCurrentInstance();
 // 用户信息
-let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+const store = useStore();
+let userInfo = store.state.userInfo;
 let logindate = ref('2023-1-1');
 let loginpos = ref('江西南昌');
 onMounted(() => {
